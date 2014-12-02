@@ -55,7 +55,24 @@
          
          
         \begin{block}{The Python ARM Radar Toolkit}
-        
+                \begin{columns}[t]
+                    \begin{column}{.6\linewidth}
+                        \begin{itemize}
+                            \item Working with radar data to generate geophysical products follows a similar basic path irrespective of what insight is sought:
+			   \item Read in the data
+                            \item  Correct the data in radar coordinates
+                            \item  Map the data to a model like grid
+                            \item  Use models of interaction to retrieve atmospheric parameters from remotely sensed quantities
+                            \item  Using the Python language and community based software tools like Scientific 
+                            Python our team has developed an open source community tool for interacting with radar data. 
+                            \item  This is an open-source (BSD) licensed Argonne invention.
+                       \end{itemize}
+                   \end{column}
+                   \begin{column}{.4\linewidth}
+                   \vskip0ex
+                       \includegraphics[width=0.9\linewidth]{figures/pyart-flow}\\[1ex]   
+                   \end{column}
+               \end{columns}
          \end{block}
          
 
