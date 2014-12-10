@@ -112,7 +112,7 @@
  
      \begin{block}{Raw data to Quantitative Precipitation Estimates}
  	\begin{columns}[t]
-		\begin{column}{.5\linewidth}
+		\begin{column}{.4\linewidth}
 		\begin{itemize}
 		\item Raw collected radar data in engineering units is unsuitable for comparison with model data. 
 		\item Shorter wavelength radar have a higher attenuation cross section. However Signal to noise in phase information much higher and calibration insensitive.
@@ -120,11 +120,10 @@
 		\item When calculating Specific Differential Phase, {\small $K_{dp}$} only the propagation component should be considered, {\tiny $K_{dp} = \frac{d\phi_{dp}^{prop}(r)}{dr}$}.
 		\item Method of \citet{giangrande_application_2013} used to extract {\small $\phi_{dp}^{prop}$} and a 20 point sobel filter 
 		{\tiny$K_{dp} = \phi_{dp}^{prop} \ast f_{20} = \sum\limits_{M=0}^{19}   \phi_{dp}(r-M)f(M)$} where $f(M)$ is a linear ramp through zero. 
-		\item Specific attenuation is calculated using {\small $K_{dp}$} and {\small $Z_e$} using a method after \citet{gu_polarimetric_2011} and is used as a an estimator for rainfall 
-		using a method after \cite{ryzhkov_potential_2014}.
+		
 		\end{itemize}
 		\end{column}
-                \begin{column}{.5\linewidth}
+                \begin{column}{.6\linewidth}
                 \begin{columns}[t]
                 \begin{column}{.5\linewidth}
                 		\includegraphics[width=1.0\linewidth]{figures/ze.png}\\[1ex]  %r1
@@ -140,8 +139,33 @@
 		\end{columns}
  		\end{column}
 	\end{columns}
+	\begin{itemize}
+	\item Specific attenuation is calculated using {\small $K_{dp}$} and {\small $Z_e$} using a method after \citet{gu_polarimetric_2011} and is used as a an estimator for rainfall 
+		using a method after \cite{ryzhkov_potential_2014}.
+	\end{itemize}
       \end{block}
+      
+      
        \begin{block}{Mapping: Objective analysis}
+       \begin{columns}[t]
+		\begin{column}{.5\linewidth}
+		\begin{itemize}
+		\item Radar data is on , $\theta$ and $\phi$ coordinates, there is a need to estimate on different coordinates systems (Cartesian, Sigma, pressure).
+		\item Py-ART tags each gate with an estimate of its central coordinate and inserts these into a cloud. 
+		\item For propagation insensitive variables (not radial velocity or $\phi_{dp}$), gates can be drawn from mulitple radars to be estimated onto a single grid. 
+		
+		\end{itemize}
+		\end{column}
+		\begin{column}{.5\linewidth}
+		\vskip0ex
+		\includegraphics[width=1.0\linewidth]{figures/mapping.png}\\[1ex]     
+		\end{column}
+	\end{columns}
+	\begin{itemize}
+	\item In Py-ART the act of gridding takes in a {\it n-tuple} of radar objects and returns a grid object which can be saved to a CF-Radial complaint file.
+	\end{itemize}	
+	\includegraphics[width=1.0\linewidth]{figures/code}\\[1ex]   
+
          \end{block}
 
 
@@ -152,6 +176,9 @@
    \begin{block}{Advective interpolation}
  	\begin{columns}[t]
 		\begin{column}{.5\linewidth}
+		\begin{itemize}
+		\item Simply accumulating precipitation retrievals by integrating can create a "chain of pearls effect" due to the lack of spatial coherency between successive radar scans.
+		\end{itemize}
 		\end{column}
                 \begin{column}{.5\linewidth}
            		\includegraphics[width=1.0\linewidth]{figures/basic_accumulation.png}\\[1ex]     
