@@ -61,7 +61,7 @@
          
         \begin{block}{Achieving insight with the community: The \textcolor{red}{Py}thon \textcolor{red}{A}RM \textcolor{red}{R}adar \textcolor{red}{T}oolkit}
                 \begin{columns}[t]
-                    \begin{column}{.6\linewidth}
+                    \begin{column}{.55\linewidth}
                         \begin{itemize}
                             \item Weather radars are not a new invention, first academic mention in \citet{bent_radar_1943}.
                             \item Massive advances in computing and radar software has not kept up.
@@ -72,7 +72,7 @@
                              \includegraphics[width=0.8\linewidth]{figures/survey}\\[1ex]                        
                        \end{itemize}
                    \end{column}
-                   \begin{column}{.4\linewidth}
+                   \begin{column}{.45\linewidth}
                    \vskip0ex
                        \includegraphics[width=0.9\linewidth]{figures/pyart-flow}\\[1ex]   
                    \end{column}
@@ -116,7 +116,7 @@
  
      \begin{block}{Raw data to Quantitative Precipitation Estimates}
  	\begin{columns}[t]
-		\begin{column}{.4\linewidth}
+		\begin{column}{.38\linewidth}
 		\begin{itemize}
 		\item Raw collected radar data in engineering units is unsuitable for comparison with model data. 
 		\item Shorter wavelength radar have a higher attenuation cross section. However Signal to noise in phase information much higher and calibration insensitive.
@@ -127,7 +127,7 @@
 		
 		\end{itemize}
 		\end{column}
-                \begin{column}{.6\linewidth}
+                \begin{column}{.62\linewidth}
                 \begin{columns}[t]
                 \begin{column}{.5\linewidth}
                 		\includegraphics[width=.95\linewidth]{figures/ze.png}\\[1ex]  %r1
@@ -222,7 +222,9 @@
  		\end{column}
 	\end{columns}
 	      \begin{itemize}
-	      \item where $\mathcal{F}$ is the Fourier transform, $^*$ is the complex conjugate and $\circ$ is the element wise multiplication. 
+	      \item where $\mathcal{F}$ is the Fourier transform, $^*$ is the complex conjugate and $\circ$ represents element wise multiplication. 
+	      \item Summing sub-sample advective interpolation steps results in an accumulation that is less effected by lack of temporal resolution.
+	      \item As an added bonus this technique can be used the temporal resolution in point estimates by effectively projecting the spatial to the temporal dimension.
                 \end{itemize}
 
       \end{block}
