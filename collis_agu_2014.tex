@@ -30,6 +30,7 @@
 2: Brookhaven National Laboratory, Upton, NY United States\\
 3: Meteorologisches Institut der Universit{\"a}t Bonn, Bonn, Germany}
 \date{\today}
+
 \begin{document}
 \begin{frame}{} 
  \begin{columns}[t]
@@ -141,6 +142,7 @@
 	\begin{itemize}
 	\item Specific attenuation is calculated using {\small $K_{dp}$} and {\small $Z_e$} using a method after \citet{gu_polarimetric_2011} and is used as a an estimator for rainfall 
 		using a method after \cite{ryzhkov_potential_2014}.
+	\item In \citet{giangrande_precipitation_2014} it was shown that specific attenuation at short wavelengths performed as well as retrievals at S-band wavelengths.
 	\end{itemize}
       \end{block}
       
@@ -174,16 +176,51 @@
   \vfill
    \begin{block}{Advective interpolation}
  	\begin{columns}[t]
-		\begin{column}{.5\linewidth}
+		\begin{column}{.6\linewidth}
 		\begin{itemize}
 		\item Simply accumulating precipitation retrievals by integrating can create a "chain of pearls effect" due to the lack of spatial coherency between successive radar scans.
-		\end{itemize}
+		\item This can create false information and skew any interpretation of the scale of rainfall.
+		\item The solution is to calculate the image advection and then generate sub-temporal-scale images and average:
+		
+		\small
+		\begin{align*}
+                G(t + \Delta{}t, z, y, x) &= (1 - \frac{t + \Delta{}t - t_1}{t_2 - t_1})G_1(t_1, z, y + v\Delta{}t, x + u\Delta{}t) \\
+                                             &+ \frac{t + \Delta{}t - t_1}{t_2 - t_1}G_2(t_2, z, y - v\Delta{}t, x - u\Delta{}t)
+                \end{align*}
+                \normalsize
+               \item Setting $t_1 = 0$
+               \small
+                \begin{align*}
+                G(t + \Delta{}t, z, y, x) &= (1 - \frac{t + \Delta{}t}{t_2 })G_1(t_1, z, y + v\Delta{}t, x + u\Delta{}t) \\
+                                             &+ \frac{t + \Delta{}t}{t_2}G_2(t_2, z, y - v\Delta{}t, x - u\Delta{}t)
+                \end{align*}
+                \normalsize
+                \item In a nice novel twist (we Py-ART developers love applying math to radar) the advection can be determined from the cross correlation phase between the two images, 
+                $r = \mathcal{F}^{-1}\left\{C\right\}$.
+                \item Borrowing liberally from \hyperlink{http://en.wikipedia.org/wiki/Phase_correlation}{Wikipedia}: 
+                	\small
+		\begin{gather*}
+		\boldsymbol{G}_{t1} = \mathcal{F}\left\{R_{t1}\right\}, \boldsymbol{G}_{t2} = \mathcal{F}\left\{R_{t2}\right\}\\
+		C = \frac{\boldsymbol{G}_{t1}\circ\boldsymbol{G}^*_{t2}}{\left|\boldsymbol{G}_{t1}\circ\boldsymbol{G}^*_{t2}\right|}\\
+		r = \mathcal{F}^{-1}\left\{C\right\}\\
+		\Delta{}x, \Delta{}y = \mathrm{argmax}\left\{r\right\}
+				\end{gather*}
+		\normalsize
+
+            
+                \end{itemize}
 		\end{column}
-                \begin{column}{.5\linewidth}
+                \begin{column}{.4\linewidth}
+            
+                \vskip0ex
            		\includegraphics[width=1.0\linewidth]{figures/basic_accumulation.png}\\[1ex]     
             		\includegraphics[width=1.0\linewidth]{figures/advective_accum.png}\\[1ex]  
  		\end{column}
 	\end{columns}
+	      \begin{itemize}
+	      \item where $\mathcal{F}$ is the Fourier transform, $^*$ is the complex conjugate and $\circ$ is the element wise multiplication. 
+                \end{itemize}
+
       \end{block}
    
    
